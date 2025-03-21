@@ -8,7 +8,7 @@
 
 int main(){
     int valid_op = 0;
-    char expression[500];
+    char expression[200];
 
     char** operands = (char**)malloc(sizeof(char*) * 3);
     operands[0] = (char*)malloc(sizeof(char) * 250); //operand1
@@ -22,12 +22,12 @@ int main(){
 
 
     while(1){ 
-        for(int i =0; i<500; i++){
+        for(int i =0; i<200; i++){
             expression[i] = '\0';
         }
         printf("Enter Your Expression: ");
-        scanf("%s", expression);
-        if(valid_chars(expression)){
+        fgets(expression, 100, stdin);
+        if((valid_chars(expression)) > 0){
             /*Check Exit*/
             if (expression[0] == 'e' && expression[1] == 'x' && expression[2] == 'i' && expression[3] == 't'){
                 break;

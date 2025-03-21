@@ -148,10 +148,10 @@ int is_operator(char op){
 int valid_chars(char operation[]){
     //checks the validity of the operation. returns 1 if valid
     int size = get_length(operation);
-    for (int i = 0; i<size; i++){
-        if (operation[i] == ' '){
+    for (int i = 0; i<size-1; i++){
+        if (isspace(operation[i]-0)){
             printf("No Spaces Allowed..\n");
-            return 0;
+            return 0;  
         }
         else if(isdigit(operation[i])){
             continue;
