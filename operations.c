@@ -59,16 +59,25 @@ void subtract_int_char(char* operand_num, char* operand_char, char* result){
     //operand2 is already a-z or A-Z, shifts operand2 over operand1 amount, returns char*
     //convert chars in operand2 to askii vals and add the operand1 val
     int op1 = convert_char_dig(operand_num);
+    int idx;
     for (int i =0; i < get_length(operand_char); i++){
         int askii_val = (operand_char[i] - 0);
         askii_val -= op1;
         result[i] = (char)askii_val;
+        idx = i;
     }
+    result[idx+1] = '\0';
 
 }
 
 int divide_int(int operand1, int operand2){
-    return operand1/operand2;
+    if(operand2 != 0){
+        return operand1/operand2;
+    }
+    else{
+        printf("You can not divide by zero!!\n");
+        return -1;
+    }
 }
 
 void divide_int_char(char* operand_num, char* operand_char, char* result){
@@ -90,13 +99,25 @@ void multiply_int_char(char* operand_num, char* operand_char, char* result){
     //copy operand2 char array operand1 amount of times into a new array and return its pointer
     int op1 = convert_char_dig(operand_num);
     int idx = 0;
-    for (int i = 0; i < op1; i++){
-        for(int j = 0; j < (get_length(operand_char)); j++){
-            result[idx] = operand_char[j];
-            idx++;
+    int size = get_length(operand_char);
+    if((op1*size)<1023){
+        for (int i = 0; i < op1; i++){
+            for(int j = 0; j < (size); j++){
+                result[idx] = operand_char[j];
+                idx++;
+            }
         }
+        result[idx] ='\0';
+    } else {
+        printf("I cannot return a string of that length...\n");
+        for (int i = 0; (i < (1000/size)); i++){
+            for(int j = 0; j < (size); j++){
+                result[idx] = operand_char[j];
+                idx++;
+            }
+        }
+        result[idx] ='\0';
     }
-    result[idx] ='\0';
 }
 
 int remainder_int(int operand1, int operand2){
@@ -152,6 +173,7 @@ int is_operator(char op){
 int valid_chars(char operation[]){
     //checks the validity of the operation. returns 1 if valid
     int size = get_length(operation);
+    int found_operator = 0;
     for (int i = 0; i<size-1; i++){
         if (isspace(operation[i]-0)){
             printf("No Spaces Allowed..\n");
@@ -163,8 +185,9 @@ int valid_chars(char operation[]){
         else if (isalpha(operation[i])){
             continue;
         }
-        else if (operation[i] == '+' || operation[i] == '-' || operation[i] == '/'
-        || operation[i] == '*' || operation[i] == '%'){
+        else if ((operation[i] == '+' || operation[i] == '-' || operation[i] == '/'
+        || operation[i] == '*' || operation[i] == '%') && (found_operator ==0)){
+            found_operator++;
             continue;
         }
         else{
@@ -240,7 +263,7 @@ int convert_char_dig(char* arr){
     /*-1 is error term for int being out of range*/
     long long int val;
     sscanf(arr, "%lld", &val);
-    if ((val < INT_MAX)&& val>0){
+    if ((val < INT_MAX)&& val>=0){
         return (int)val;
     }
     else{
@@ -273,7 +296,7 @@ int perform_operation(char** expression, char* result){
     }
     if(operand2_digit>0){
         success = convert_char_dig(expression[2]);
-        if(success <1){
+        if(success == -1){
             return 0;
         }
     }

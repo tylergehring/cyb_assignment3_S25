@@ -15,8 +15,8 @@ int main(){
     operands[2] = (char*)malloc(sizeof(char) * 250); //operand2
     operands[1] = (char*)malloc(sizeof(char) * 2);  //operation
     
-    char* result = (char*)malloc(sizeof(char)*100);
-    for(int i = 0; i<100; i++){
+    char* result = (char*)malloc(sizeof(char)*1024);
+    for(int i = 0; i<1024; i++){
         result[i] = '\0';
     }
 
@@ -59,14 +59,7 @@ int main(){
 RECQUIREMENTS:
 
 
-- check for potential integer overflow/underflow and divide by zero.
-- for * of strings  If after the expansion, the string is longer than 1024 characters (abc*500), print a message
-    about it (“result string is too long” or something similar) and only keep 1024 characters
-    and ignore the later characters
+- check for potential integer overflow/underflow and 
 
-
-- Your program should provide meaning messages
-
-// In valid_chars... create a check for multiple operators...
 
 */
