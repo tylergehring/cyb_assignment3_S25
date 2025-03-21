@@ -30,7 +30,12 @@ void dig_to_char_op(char** expression, char* result, int operand2_char);
 
 int add_int(int operand1, int operand2){
     //Check for int overflow, add operands together, return int
-    return operand1 + operand2;
+    if (operand1 > (INT_MAX - operand2)){
+        printf("Integer Overflow Has Occured\n");
+        return -1;
+    } else {
+        return operand1 + operand2;
+    }
 }
 
 void add_int_char(char* operand_num, char* operand_str, char* result){
@@ -51,7 +56,12 @@ void add_int_char(char* operand_num, char* operand_str, char* result){
 
 int subtract_int(int operand1, int operand2){
     //Check for int overflow, add operands together, return int
-    return operand1 - operand2;
+    if ((operand1 + operand2) > INT_MAX){
+        printf("Integer Underflow Has Occured..\n");
+        return -1;
+    } else {
+        return operand1 - operand2;
+    }
 }
 
 void subtract_int_char(char* operand_num, char* operand_char, char* result){
@@ -92,7 +102,12 @@ void divide_int_char(char* operand_num, char* operand_char, char* result){
 }
 
 int multiply_int(int operand1, int operand2){
-    return operand1*operand2;
+    int result = operand1*operand2;
+    if((result/operand2)!=operand1){
+        printf("Overflow Has Occured..\n");
+    } else {
+        return result;
+    }
 }
 
 void multiply_int_char(char* operand_num, char* operand_char, char* result){
@@ -343,7 +358,12 @@ void dig_to_dig_op(char** expression, char* result){
 
     if(expression[1][0] == '+'){
         res_int = add_int(op1, op2);
-        convert_dig_char(result, res_int);
+        if(res_int != -1){
+            convert_dig_char(result, res_int);
+        } else{
+            printf("overflow occured when adding...\n");
+            convert_dig_char(result, res_int);
+        }
     }
     else if(expression[1][0] == '-'){
         res_int = subtract_int(op1, op2);
@@ -411,7 +431,5 @@ void clear_operands(char** operands){
         clear_str(operands[i]);
     }
 }
-
-
 
 
