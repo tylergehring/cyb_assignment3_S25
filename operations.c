@@ -35,11 +35,14 @@ void add_int_char(char* operand_num, char* operand_str, char* result){
     //convert chars in operand2 to askii vals and add the operand1 val
     int op1_int = convert_char_dig(operand_num);
     int op2_size = get_length(operand_str);
+    int idx = 0;
     for (int i =0; i < op2_size; i++){
         int askii_val = (operand_str[i] - 0);
         askii_val += op1_int;
         result[i] = (char)askii_val;
+        idx = i;
     }
+    result[idx+1] = '\0';
 }
 
 int subtract_int(int operand1, int operand2){
@@ -86,6 +89,7 @@ void multiply_int_char(char* operand_num, char* operand_char, char* result){
             idx++;
         }
     }
+    result[idx] ='\0';
 }
 
 void parse_expression(char expression[], char** operands){
@@ -224,7 +228,7 @@ int convert_char_dig(char* arr){
 }
 
 void convert_dig_char(char* arr, int num){
-    sprintf(arr, "%d", num);
+    sprintf(arr, "%d\0", num);
 }
 
 int perform_operation(char** expression, char* result){

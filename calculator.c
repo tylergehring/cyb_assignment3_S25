@@ -30,6 +30,7 @@ int main(){
 
         printf("Enter Your Expression: ");
         scanf("%s", expression);
+        printf("EXPRESSION: %s\n", expression);
         if(valid_chars(expression)){
             /*Check Exit*/
             if (expression[0] == 'e' && expression[1] == 'x' && expression[2] == 'i' && expression[3] == 't'){
@@ -37,7 +38,7 @@ int main(){
             }
             /*Continue Operation*/
             parse_expression(expression, operands);
-            printf("res: %s\n", result);
+            //printf("res: %s\n", result);
             if(perform_operation(operands, result)){
                 printf("RESULT: %s\n", result);
             }
