@@ -16,17 +16,24 @@ int divide_int(int operand1, int operand2);
 void divide_int_char(char* operand_num, char* operand_char, char* result);
 int multiply_int(int operand1, int operand2);
 void multiply_int_char(char* operand_num, char* operand_char, char* result);
+int remainder_int(int operand1, int operand2);
 
 void parse_expression(char expression[], char** operands);
 int is_operator(char op);
 int valid_chars(char operation[]);
 int get_length(char arr[]);
+
 int is_digits(char* arg);
 int is_alphas(char* arg);
 int convert_char_dig(char* arr);
-
+void convert_dig_char(char* arr, int num);
+int perform_operation(char** expression, char* result);
 void dig_to_dig_op(char** expression, char* result);
 void dig_to_char_op(char** expression, char* result, int operand2_char);
+
+void clear_str(char* char_arr);
+void clear_operands(char** operands);
+
 
 int add_int(int operand1, int operand2){
     //Check for int overflow, add operands together, return int
@@ -50,7 +57,7 @@ void add_int_char(char* operand_num, char* operand_str, char* result){
         /*upper_case*/
         if((askii_val >=65) && (askii_val<=90)){
             if((askii_val+op1_int) > 90){
-                askii_val = 65+op1_int;
+                askii_val = 64+((askii_val+op1_int)-90);
             }
             else{
                 askii_val += op1_int;
@@ -60,7 +67,7 @@ void add_int_char(char* operand_num, char* operand_str, char* result){
         /*lower case*/
         if((askii_val >=97) && (askii_val<=122)){
             if((askii_val+op1_int) > 122){
-                askii_val = 97+op1_int;
+                askii_val = 96+((askii_val+op1_int)-122);
             }
             else{
                 askii_val += op1_int;
@@ -93,7 +100,7 @@ void subtract_int_char(char* operand_num, char* operand_char, char* result){
         /*upper_case*/
         if((askii_val >=65) && (askii_val<=90)){
             if((askii_val-op1) < 65){
-                askii_val = 90-op1;
+                askii_val = 91-(65 -(askii_val-op1));
             }
             else{
                 askii_val -= op1;
@@ -103,7 +110,7 @@ void subtract_int_char(char* operand_num, char* operand_char, char* result){
         /*lower case*/
         if((askii_val >=97) && (askii_val<=122)){
             if((askii_val-op1) < 97){
-                askii_val = 122-op1;
+                askii_val = 123-(97- (askii_val-op1));
             }
             else{
                 askii_val -= op1;
