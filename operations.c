@@ -47,8 +47,26 @@ void add_int_char(char* operand_num, char* operand_str, char* result){
     int idx = 0;
     for (int i =0; i < op2_size; i++){
         int askii_val = (operand_str[i] - 0);
-        askii_val += op1_int;
-        result[i] = (char)askii_val;
+        /*upper_case*/
+        if((askii_val >=65) && (askii_val<=90)){
+            if((askii_val+op1_int) > 90){
+                askii_val = 65+op1_int;
+            }
+            else{
+                askii_val += op1_int;
+            }
+            result[i] = (char)askii_val;
+        }
+        /*lower case*/
+        if((askii_val >=97) && (askii_val<=122)){
+            if((askii_val+op1_int) > 122){
+                askii_val = 97+op1_int;
+            }
+            else{
+                askii_val += op1_int;
+            }
+            result[i] = (char)askii_val;
+        }
         idx = i;
     }
     result[idx+1] = '\0';
@@ -72,8 +90,26 @@ void subtract_int_char(char* operand_num, char* operand_char, char* result){
     int idx;
     for (int i =0; i < get_length(operand_char); i++){
         int askii_val = (operand_char[i] - 0);
-        askii_val -= op1;
-        result[i] = (char)askii_val;
+        /*upper_case*/
+        if((askii_val >=65) && (askii_val<=90)){
+            if((askii_val-op1) < 65){
+                askii_val = 90-op1;
+            }
+            else{
+                askii_val -= op1;
+            }
+            result[i] = (char)askii_val;
+        }
+        /*lower case*/
+        if((askii_val >=97) && (askii_val<=122)){
+            if((askii_val-op1) < 97){
+                askii_val = 122-op1;
+            }
+            else{
+                askii_val -= op1;
+            }
+            result[i] = (char)askii_val;
+        }
         idx = i;
     }
     result[idx+1] = '\0';
@@ -136,7 +172,12 @@ void multiply_int_char(char* operand_num, char* operand_char, char* result){
 }
 
 int remainder_int(int operand1, int operand2){
-    return operand1%operand2;
+    if(operand2 !=0){
+        return operand1%operand2;
+    } else {
+        printf("I cannot divide by zero...\n");
+        return -1;
+    }
 }
 
 void parse_expression(char expression[], char** operands){
@@ -206,7 +247,7 @@ int valid_chars(char operation[]){
             continue;
         }
         else{
-            printf("ERROR.. Invalid Input\n");
+            printf("ERROR.. Invalid Input. Probably Bad Char.\n");
             return 0;
         }
     }
@@ -246,7 +287,7 @@ int is_digits(char* arg){
         return 1;
     }
     else{
-        printf("ERROR:Operations.c::is_digit: {arg_len size: %d | size of char arr:%d}\n",arg_len, size);
+        //printf("ERROR:Operations.c::is_digit: {arg_len size: %d | size of char arr:%d}\n",arg_len, size);
         return 0;
     }
 }
@@ -361,7 +402,6 @@ void dig_to_dig_op(char** expression, char* result){
         if(res_int != -1){
             convert_dig_char(result, res_int);
         } else{
-            printf("overflow occured when adding...\n");
             convert_dig_char(result, res_int);
         }
     }
