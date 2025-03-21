@@ -318,3 +318,16 @@ void dig_to_char_op(char** expression, char* result, int operand2_char){
     
 }
 
+
+void clear_str(char* char_arr){
+    for(int i = 0; i < (get_length(char_arr)); i++){
+        char_arr[i] = '\0'; //clearing data
+    }
+}
+
+void clear_operands(char** operands){
+    /*very specific use case on operands sturcture defined in main*/
+    for(int i =0; i<3;i++){
+        clear_str(operands[i]);
+    }
+}

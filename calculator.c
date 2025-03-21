@@ -22,47 +22,63 @@ int main(){
         result[i] = '\0';
     }
 
-
-    do{
-        for(int i = 0; i<100; i++){
+    
+    while(1){ 
+        for(int i =0; i<100; i++){
             expression[i] = '\0';
         }
+
         printf("Enter Your Expression: ");
         scanf("%s", expression);
         if(valid_chars(expression)){
+            /*Check Exit*/
+            if (expression[0] == 'e' && expression[1] == 'x' && expression[2] == 'i' && expression[3] == 't'){
+                break;
+            }
+            /*Continue Operation*/
             parse_expression(expression, operands);
+            printf("res: %s\n", result);
             if(perform_operation(operands, result)){
-                valid_op = 1;
+                printf("RESULT: %s\n", result);
             }
             else{
                 printf("Invalid Expression... Please Try Again. [digit,digit or digit,char]\n");
-                for(int i =0; i<3;i++){
-                    for(int j = 0; j < (get_length(operands[i])); j++){
-                        operands[i][j] = '\0'; //clearing data
-                    }
-                }
             }
         }
-    } while (!valid_op);
+        //printf("%s, %s, %s\n", operands[0], operands[1], operands[2]);
+        //printf("res: %s\n", result);
+        clear_operands(operands);
+        clear_str(result);
+        //printf("%s, %s, %s\n", operands[0], operands[1], operands[2]);
+        //printf("res: %s\n", result);
+        //printf("expression: %s\n", expression);
+    }
 
-    printf("RESULT: %s\n", result);
-
-    // 
-    // if(operands[1][0] == '+'){
-    //     add_int_char(operands[0], operands[2]);
-    //     printf("result: %s\n", operands[2]);
-    //}
-
-
-
-    //based on operator, convert types and call operator function
     return 0;
-
-    
-}
-
-
+    }
 //TO DO:
 // In valid_chars... create a check for multiple operators... 
 // We are not worried about negative ints
 //percent int % operation
+
+/*
+RECQUIREMENTS:
+- string operand can only be 100 chars
+- If the integer is > INT_MAX or <0, reject it
+- in expression No whitespace allowed
+- check for potential integer overflow/underflow and divide by zero.
+- for * of strings  If after the expansion, the string is longer than 1024 characters (abc*500), print a message
+    about it (“result string is too long” or something similar) and only keep 1024 characters
+    and ignore the later characters
+-Make your calculator run multiple times until the user enters “exit” to terminate the program.
+-For all of the numbers, use signed int as their data type
+- Your program should provide meaning messages
+
+
+
+
+if (expression[0] == 'e' && expression[1] == 'x' && expression[2] == 'i' && expression[3] == 't'){
+                exit_lp = 1;
+                break;
+            }
+*/
