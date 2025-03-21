@@ -20,7 +20,7 @@ int main(){
         result[i] = '\0';
     }
 
-    
+
     while(1){ 
         for(int i =0; i<500; i++){
             expression[i] = '\0';
@@ -53,28 +53,22 @@ int main(){
 
 
 //TO DO:
-// In valid_chars... create a check for multiple operators... 
-// We are not worried about negative ints
+ 
 //percent int % operation
 
 /*
 RECQUIREMENTS:
-- string operand can only be 100 chars
-- If the integer is > INT_MAX or <0, reject it
-- in expression No whitespace allowed
+
+
 - check for potential integer overflow/underflow and divide by zero.
 - for * of strings  If after the expansion, the string is longer than 1024 characters (abc*500), print a message
     about it (“result string is too long” or something similar) and only keep 1024 characters
     and ignore the later characters
--Make your calculator run multiple times until the user enters “exit” to terminate the program.
--For all of the numbers, use signed int as their data type
+
+
 - Your program should provide meaning messages
 
+- in expression No whitespace allowed
+// In valid_chars... create a check for multiple operators...
 
-
-
-if (expression[0] == 'e' && expression[1] == 'x' && expression[2] == 'i' && expression[3] == 't'){
-                exit_lp = 1;
-                break;
-            }
 */

@@ -19,13 +19,13 @@ void multiply_int_char(char* operand_num, char* operand_char, char* result);
 
 void parse_expression(char expression[], char** operands);
 int is_operator(char op);
-int valid_chars(char* operation);
+int valid_chars(char operation[]);
 int get_length(char arr[]);
 int is_digits(char* arg);
 int is_alphas(char* arg);
 int convert_char_dig(char* arr);
 
-int dig_to_dig_op(char** expression, char* result);
+void dig_to_dig_op(char** expression, char* result);
 void dig_to_char_op(char** expression, char* result, int operand2_char);
 
 int add_int(int operand1, int operand2){
@@ -145,11 +145,15 @@ int is_operator(char op){
     return 0;
 }
 
-int valid_chars(char* operation){
+int valid_chars(char operation[]){
     //checks the validity of the operation. returns 1 if valid
     int size = get_length(operation);
     for (int i = 0; i<size; i++){
-        if(isdigit(operation[i])){
+        if (operation[i] == ' '){
+            printf("No Spaces Allowed..\n");
+            return 0;
+        }
+        else if(isdigit(operation[i])){
             continue;
         }
         else if (isalpha(operation[i])){
@@ -254,16 +258,42 @@ int perform_operation(char** expression, char* result){
     int operand2_digit = is_digits(expression[2]);
     int operand1_char = is_alphas(expression[0]);
     int operand2_char = is_alphas(expression[2]);
-
+    int success;
     
-    if(operand1_digit && operand2_digit){
-        int success = dig_to_dig_op(expression, result);
-        if (success>0){
-            return 1;
-        }
-        else{
+    /*check size of digit*/
+    if(operand1_digit>0){
+        success = convert_char_dig(expression[0]);
+        if(success == -1){
             return 0;
         }
+    }
+    if(operand2_digit>0){
+        success = convert_char_dig(expression[2]);
+        if(success <1){
+            return 0;
+        }
+    }
+
+    /*check size of chars*/
+    if(operand1_char>0){
+        if(get_length(expression[0])>100){
+            printf("String is too long...");
+            return 0;
+        }
+    }
+    if(operand2_char>0){
+        if(get_length(expression[2])>100){
+            printf("String is too long...");
+            return 0;
+        }
+    }
+
+
+    /*perform operations*/
+    if(operand1_digit && operand2_digit){
+        dig_to_dig_op(expression, result); 
+        return 1;
+
     }
     else if ((operand1_digit && operand2_char) && (*expression[1] != '%')){
         dig_to_char_op(expression, result, 1); //1 because operand 2 is char
@@ -279,15 +309,10 @@ int perform_operation(char** expression, char* result){
 
 }
 
-int dig_to_dig_op(char** expression, char* result){
-    /*returns -1 if fail, 1 if success*/
+void dig_to_dig_op(char** expression, char* result){
     int op1 = convert_char_dig(expression[0]);
     int op2 = convert_char_dig(expression[2]);
     int res_int = 0;
-
-    if((op1 ==-1) || (op2 == -1)){
-        return -1;
-    }
 
     if(expression[1][0] == '+'){
         res_int = add_int(op1, op2);
@@ -312,7 +337,6 @@ int dig_to_dig_op(char** expression, char* result){
     else{
         printf("ERROR:Operations.c::dig_to_dig_op()\n");
     }
-    return 1;
     
 }
 
@@ -363,3 +387,7 @@ void clear_operands(char** operands){
 
 
 
+
+int check_char_len(){
+
+}
