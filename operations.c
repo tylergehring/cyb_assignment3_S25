@@ -3,6 +3,10 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<ctype.h>
+#include <limits.h>
+
+#define INT_MAX_VALUE INT_MAX
+
 
 int add_int(int operand1, int operand2);
 void add_int_char(char* operand1, char* operand2, char* result);
@@ -21,7 +25,7 @@ int is_digits(char* arg);
 int is_alphas(char* arg);
 int convert_char_dig(char* arr);
 
-void dig_to_dig_op(char** expression, char* result);
+int dig_to_dig_op(char** expression, char* result);
 void dig_to_char_op(char** expression, char* result, int operand2_char);
 
 int add_int(int operand1, int operand2){
@@ -70,9 +74,12 @@ int divide_int(int operand1, int operand2){
 void divide_int_char(char* operand_num, char* operand_char, char* result){
     //remove operand1 amount of chars from the end of operand2 char array
     int op1 = convert_char_dig(operand_num);
+    int idx = 0;
     for(int i= 0; i<((get_length(operand_char))-op1); i++){
         result[i] = operand_char[i];
+        idx = i;
     }
+    result[idx+1] = '\0';
 }
 
 int multiply_int(int operand1, int operand2){
@@ -222,9 +229,16 @@ int is_alphas(char* arg){
 }
 
 int convert_char_dig(char* arr){
-    int val;
-    sscanf(arr, "%d", &val);
-    return val;
+    /*-1 is error term for int being out of range*/
+    long long int val;
+    sscanf(arr, "%lld", &val);
+    if ((val < INT_MAX)&& val>0){
+        return (int)val;
+    }
+    else{
+        printf("Int is too big...\n");
+        return -1;
+    }
 }
 
 void convert_dig_char(char* arr, int num){
@@ -241,9 +255,15 @@ int perform_operation(char** expression, char* result){
     int operand1_char = is_alphas(expression[0]);
     int operand2_char = is_alphas(expression[2]);
 
+    
     if(operand1_digit && operand2_digit){
-        dig_to_dig_op(expression, result);
-        return 1;
+        int success = dig_to_dig_op(expression, result);
+        if (success>0){
+            return 1;
+        }
+        else{
+            return 0;
+        }
     }
     else if ((operand1_digit && operand2_char) && (*expression[1] != '%')){
         dig_to_char_op(expression, result, 1); //1 because operand 2 is char
@@ -259,10 +279,15 @@ int perform_operation(char** expression, char* result){
 
 }
 
-void dig_to_dig_op(char** expression, char* result){
+int dig_to_dig_op(char** expression, char* result){
+    /*returns -1 if fail, 1 if success*/
     int op1 = convert_char_dig(expression[0]);
     int op2 = convert_char_dig(expression[2]);
     int res_int = 0;
+
+    if((op1 ==-1) || (op2 == -1)){
+        return -1;
+    }
 
     if(expression[1][0] == '+'){
         res_int = add_int(op1, op2);
@@ -287,7 +312,7 @@ void dig_to_dig_op(char** expression, char* result){
     else{
         printf("ERROR:Operations.c::dig_to_dig_op()\n");
     }
-    
+    return 1;
     
 }
 
@@ -335,3 +360,6 @@ void clear_operands(char** operands){
         clear_str(operands[i]);
     }
 }
+
+
+

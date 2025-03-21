@@ -6,15 +6,13 @@
 #include "operations.c"
 
 
-
-
 int main(){
     int valid_op = 0;
-    char expression[100];
+    char expression[500];
 
     char** operands = (char**)malloc(sizeof(char*) * 3);
-    operands[0] = (char*)malloc(sizeof(char) * 150); //operand1
-    operands[2] = (char*)malloc(sizeof(char) * 150); //operand2
+    operands[0] = (char*)malloc(sizeof(char) * 250); //operand1
+    operands[2] = (char*)malloc(sizeof(char) * 250); //operand2
     operands[1] = (char*)malloc(sizeof(char) * 2);  //operation
     
     char* result = (char*)malloc(sizeof(char)*100);
@@ -24,13 +22,11 @@ int main(){
 
     
     while(1){ 
-        for(int i =0; i<100; i++){
+        for(int i =0; i<500; i++){
             expression[i] = '\0';
         }
-
         printf("Enter Your Expression: ");
         scanf("%s", expression);
-        printf("EXPRESSION: %s\n", expression);
         if(valid_chars(expression)){
             /*Check Exit*/
             if (expression[0] == 'e' && expression[1] == 'x' && expression[2] == 'i' && expression[3] == 't'){
@@ -38,25 +34,24 @@ int main(){
             }
             /*Continue Operation*/
             parse_expression(expression, operands);
-            //printf("res: %s\n", result);
-            if(perform_operation(operands, result)){
+            int val = perform_operation(operands, result);
+            if(val){
                 printf("RESULT: %s\n", result);
             }
             else{
                 printf("Invalid Expression... Please Try Again. [digit,digit or digit,char]\n");
             }
         }
-        //printf("%s, %s, %s\n", operands[0], operands[1], operands[2]);
-        //printf("res: %s\n", result);
         clear_operands(operands);
         clear_str(result);
-        //printf("%s, %s, %s\n", operands[0], operands[1], operands[2]);
-        //printf("res: %s\n", result);
-        //printf("expression: %s\n", expression);
     }
 
     return 0;
     }
+
+
+
+
 //TO DO:
 // In valid_chars... create a check for multiple operators... 
 // We are not worried about negative ints
