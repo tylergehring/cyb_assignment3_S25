@@ -54,7 +54,6 @@ int main(){
 
 //TO DO:
  
-//percent int % operation
 
 /*
 RECQUIREMENTS:
@@ -68,7 +67,6 @@ RECQUIREMENTS:
 
 - Your program should provide meaning messages
 
-- in expression No whitespace allowed
 // In valid_chars... create a check for multiple operators...
 
 */

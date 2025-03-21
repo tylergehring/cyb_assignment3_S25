@@ -99,6 +99,10 @@ void multiply_int_char(char* operand_num, char* operand_char, char* result){
     result[idx] ='\0';
 }
 
+int remainder_int(int operand1, int operand2){
+    return operand1%operand2;
+}
+
 void parse_expression(char expression[], char** operands){
     //returns a 2 dimensional array of arg1, arg2, operation
     //char** operands = (char**)malloc(sizeof(char*) * 3);
@@ -331,8 +335,8 @@ void dig_to_dig_op(char** expression, char* result){
         convert_dig_char(result, res_int);
     }
     else if(expression[1][0] == '%'){
-        //es_int = percent_int(op1, op2);
-        //convert_dig_char(result, res_int);
+        res_int = remainder_int(op1, op2);
+        convert_dig_char(result, res_int);
     }
     else{
         printf("ERROR:Operations.c::dig_to_dig_op()\n");
@@ -388,6 +392,3 @@ void clear_operands(char** operands){
 
 
 
-int check_char_len(){
-
-}
