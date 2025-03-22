@@ -57,7 +57,13 @@ void add_int_char(char* operand_num, char* operand_str, char* result){
         /*upper_case*/
         if((askii_val >=65) && (askii_val<=90)){
             if((askii_val+op1_int) > 90){
-                askii_val = 64+((askii_val+op1_int)-90);
+                int askii_max_add = (90-askii_val);
+                while(askii_max_add < op1_int){
+                    op1_int -= askii_max_add;
+                    askii_val = 65;
+                    askii_max_add = (90-askii_val);
+                }
+                askii_val = 64+op1_int;
             }
             else{
                 askii_val += op1_int;
@@ -67,7 +73,13 @@ void add_int_char(char* operand_num, char* operand_str, char* result){
         /*lower case*/
         if((askii_val >=97) && (askii_val<=122)){
             if((askii_val+op1_int) > 122){
-                askii_val = 96+((askii_val+op1_int)-122);
+                int askii_max_add = (122-askii_val);
+                while(askii_max_add < op1_int){
+                    op1_int -= askii_max_add;
+                    askii_val = 96;
+                    askii_max_add = (122-askii_val);
+                }
+                askii_val = 96+op1_int;
             }
             else{
                 askii_val += op1_int;
@@ -161,8 +173,10 @@ void multiply_int_char(char* operand_num, char* operand_char, char* result){
     if((op1*size)<1023){
         for (int i = 0; i < op1; i++){
             for(int j = 0; j < (size); j++){
-                result[idx] = operand_char[j];
-                idx++;
+                if(!isspace(operand_char[j])){
+                    result[idx] = operand_char[j];
+                    idx++;
+                }
             }
         }
         result[idx] ='\0';
